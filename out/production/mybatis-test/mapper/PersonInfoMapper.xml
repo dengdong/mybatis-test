@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.PersonInfoMapper">
+
+    <resultMap id="PersonMP" type="model.Person">
+        <id property="id" column="id" />
+        <result property="userName" column="userName" />
+        <result property="age" column="age" />
+        <result property="address" column="address" />
+    </resultMap>
+    
+    <resultMap id="PersonInfoMP" type="model.Person" extends="PersonMP">
+        <association property="personInfo" javaType="model.PersonInfo">
+            <id property="id" column="aid" />
+            <result property="joinDate" column="join_date" />
+            <result property="remark" column="remark" />
+        </association>
+    </resultMap>
+    
+    <resultMap id="PersonInfoBook" type="model.Person" extends="PersonInfoMP">
+        <collection property="books" ofType="model.Book">
+            <id property="id" column="bid" />
+            <result property="bookName" column="bookName" />
+            <result property="money" column="money" />
+        </collection>
+    </resultMap>
+
+    <select id="selectPersonInfo" resultMap="PersonInfoBook" parameterType="map">
+        select p.id,p.`address`,p.age,p.userName,i.id as aid, i.join_date, i.remark ,  b.id as bid , b.bookName,b.money from person p
+left join person_info i on p.id = i.id
+left join book b on b.person_id = p.id
+<where>
+    <if test="userName != null"> and userName = #{userName}</if>
+</where>
+
+    </select>
+    
+</mapper>
