@@ -88,4 +88,10 @@ public class mybatistest {
         List<Person > list = session.selectList("mapper.PersonInfoMapper.selectPersonInfo" ,map);
         System.out.println( list.size());
     }
+
+
+
+
+
+
 }
