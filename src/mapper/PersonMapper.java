@@ -1,4 +1,4 @@
-package service;
+package mapper;
 
 import model.Person;
 
@@ -7,6 +7,6 @@ import model.Person;
  */
 public interface PersonMapper {
 
-    Person get(int id);
+    Person get(String id);
 
 }
